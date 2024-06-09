@@ -1,10 +1,10 @@
 /// <reference path="../../typings/index.d.ts" />
 
-import { IAppOpts, RuntimeConfig, ClientApp } from '@codeblitzjs/ide-sumi-core';
-import { IAppRenderer } from '@opensumi/ide-core-browser';
 import { IPluginConfig } from '@codeblitzjs/ide-plugin';
-import { ThemeType } from '@opensumi/ide-theme';
+import { ClientApp, IAppOpts, RuntimeConfig } from '@codeblitzjs/ide-sumi-core';
 import { Injector } from '@opensumi/di';
+import { IAppRenderer } from '@opensumi/ide-core-browser';
+import { ThemeType } from '@opensumi/ide-theme';
 
 export type { IPluginAPI, IPluginModule } from '@codeblitzjs/ide-plugin';
 

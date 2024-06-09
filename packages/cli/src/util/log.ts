@@ -10,4 +10,4 @@ const error = (msg) => {
   throw new Error(msg);
 };
 
-export { log, error };
+export { error, log };

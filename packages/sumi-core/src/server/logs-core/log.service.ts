@@ -1,20 +1,20 @@
-import { Injectable, Autowired } from '@opensumi/di';
+import { Autowired, Injectable } from '@opensumi/di';
 import {
+  BaseLogServiceOptions,
+  DebugLog,
+  format,
+  IBaseLogService,
   ILogService,
   ILogServiceOptions,
-  BaseLogServiceOptions,
   LogLevel,
   SupportLogNamespace,
-  format,
-  DebugLog,
-  IBaseLogService,
 } from '@opensumi/ide-logs/lib/common';
 import * as path from 'path';
 
-import { ILogServiceForClient } from './base';
-import { ILogServiceManager } from '../core/base';
-import { RPCService } from '../../connection';
 import { HOME_ROOT } from '../../common';
+import { RPCService } from '../../connection';
+import { ILogServiceManager } from '../core/base';
+import { ILogServiceForClient } from './base';
 
 export const DEFAULT_LOG_FOLDER = path.join(HOME_ROOT, `.opensumi/logs/`);
 

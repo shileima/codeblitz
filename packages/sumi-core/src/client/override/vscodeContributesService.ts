@@ -1,10 +1,10 @@
 import {
-  VSCodeContributesServiceToken,
   VSCodeContributesService,
+  VSCodeContributesServiceToken,
 } from '@opensumi/ide-extension/lib/browser/vscode/contributes';
-import { TerminalContributionPoint } from '@opensumi/ide-extension/lib/browser/vscode/contributes/terminal';
-import { DebuggersContributionPoint } from '@opensumi/ide-extension/lib/browser/vscode/contributes/debuggers';
 import { BreakpointsContributionPoint } from '@opensumi/ide-extension/lib/browser/vscode/contributes/breakpoints';
+import { DebuggersContributionPoint } from '@opensumi/ide-extension/lib/browser/vscode/contributes/debuggers';
+import { TerminalContributionPoint } from '@opensumi/ide-extension/lib/browser/vscode/contributes/terminal';
 
 export { VSCodeContributesServiceToken };
 

@@ -13,14 +13,13 @@ async function createReference() {
 import { IExtensionBasicMetadata } from '@codeblitzjs/ide-common'
 declare const metadata: IExtensionBasicMetadata;
 export { metadata }
-    `.trim() + '\n'
+    `.trim() + '\n',
     );
   }
 }
 
 export async function createMetadataType(extensionId: string) {
-  const content =
-    `
+  const content = `
 import { metadata } from './_reference';
 export = metadata;
   `.trim() + '\n';

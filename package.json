@@ -82,5 +82,20 @@
   "packageManager": "yarn@4.2.2",
   "dependencies": {
     "node-gyp": "10.1.0"
+  },
+  "kaitianContributes": {
+    "browserMain": "./out/browser/index.js",
+    "viewsProxies": ["Leftview"],
+    "browserViews": {
+      "left": {
+        "type": "add",
+        "view": [
+          {
+            "id": "Leftview",
+            "icon": "extension"
+          }
+        ]
+      }
+    }
   }
 }

@@ -1,27 +1,13 @@
+import { AppRenderer, getDefaultLayoutConfig, IAppInstance, SlotLocation } from '@codeblitzjs/ide-core';
+import * as Alex from '@codeblitzjs/ide-core';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import {
-  IAppInstance,
-  AppRenderer,
-  getDefaultLayoutConfig,
-  SlotLocation,
-} from '@codeblitzjs/ide-core';
-import * as Alex from '@codeblitzjs/ide-core';
 import '@codeblitzjs/ide-core/languages';
-import { CodeServiceModule } from '@codeblitzjs/ide-code-service';
 import { CodeAPIModule, CodePlatform } from '@codeblitzjs/ide-code-api';
+import { CodeServiceModule } from '@codeblitzjs/ide-code-service';
 import { IEditorInlineChat, isFilesystemReady } from '@codeblitzjs/ide-sumi-core';
 import { StartupModule } from './startup.module';
 
-import css from '@codeblitzjs/ide-core/extensions/codeblitz.css-language-features-worker';
-import html from '@codeblitzjs/ide-core/extensions/codeblitz.html-language-features-worker';
-import json from '@codeblitzjs/ide-core/extensions/codeblitz.json-language-features-worker';
-import markdown from '@codeblitzjs/ide-core/extensions/codeblitz.markdown-language-features-worker';
-import typescript from '@codeblitzjs/ide-core/extensions/codeblitz.typescript-language-features-worker';
-import gitlens from '@codeblitzjs/ide-core/extensions/codeblitz.gitlens';
-import graph from '@codeblitzjs/ide-core/extensions/codeblitz.git-graph';
-import imagePreview from '@codeblitzjs/ide-core/extensions/codeblitz.image-preview';
-import webSCM from '@codeblitzjs/ide-core/extensions/codeblitz.web-scm';
 import anycode from '@codeblitzjs/ide-core/extensions/codeblitz.anycode';
 import anycodeCSharp from '@codeblitzjs/ide-core/extensions/codeblitz.anycode-c-sharp';
 import anycodeCpp from '@codeblitzjs/ide-core/extensions/codeblitz.anycode-cpp';
@@ -31,11 +17,20 @@ import anycodePhp from '@codeblitzjs/ide-core/extensions/codeblitz.anycode-php';
 import anycodePython from '@codeblitzjs/ide-core/extensions/codeblitz.anycode-python';
 import anycodeRust from '@codeblitzjs/ide-core/extensions/codeblitz.anycode-rust';
 import anycodeTypescript from '@codeblitzjs/ide-core/extensions/codeblitz.anycode-typescript';
-import referencesView from '@codeblitzjs/ide-core/extensions/codeblitz.references-view';
-import emmet from '@codeblitzjs/ide-core/extensions/codeblitz.emmet';
-import codeswing from '@codeblitzjs/ide-core/extensions/codeblitz.codeswing';
 import codeRunner from '@codeblitzjs/ide-core/extensions/codeblitz.code-runner-for-web';
+import codeswing from '@codeblitzjs/ide-core/extensions/codeblitz.codeswing';
+import css from '@codeblitzjs/ide-core/extensions/codeblitz.css-language-features-worker';
+import emmet from '@codeblitzjs/ide-core/extensions/codeblitz.emmet';
+import graph from '@codeblitzjs/ide-core/extensions/codeblitz.git-graph';
+import gitlens from '@codeblitzjs/ide-core/extensions/codeblitz.gitlens';
+import html from '@codeblitzjs/ide-core/extensions/codeblitz.html-language-features-worker';
+import imagePreview from '@codeblitzjs/ide-core/extensions/codeblitz.image-preview';
+import json from '@codeblitzjs/ide-core/extensions/codeblitz.json-language-features-worker';
+import markdown from '@codeblitzjs/ide-core/extensions/codeblitz.markdown-language-features-worker';
 import mergeConflict from '@codeblitzjs/ide-core/extensions/codeblitz.merge-conflict';
+import referencesView from '@codeblitzjs/ide-core/extensions/codeblitz.references-view';
+import typescript from '@codeblitzjs/ide-core/extensions/codeblitz.typescript-language-features-worker';
+import webSCM from '@codeblitzjs/ide-core/extensions/codeblitz.web-scm';
 
 import { LocalExtensionModule } from '../common/local-extension.module';
 import * as Plugin from '../editor/plugin';
@@ -71,7 +66,7 @@ const platformConfig = {
     owner: '',
     name: '',
     projectId: '',
-  }, 
+  },
   gitee: {
     owner: 'opensumi',
     name: 'codeblitz',
@@ -81,7 +76,7 @@ const platformConfig = {
 const layoutConfig = getDefaultLayoutConfig();
 layoutConfig[SlotLocation.left].modules.push(
   '@opensumi/ide-extension-manager',
-  '@opensumi/ide-scm'
+  '@opensumi/ide-scm',
 );
 
 let pathParts = location.pathname.split('/').filter(Boolean);
@@ -155,12 +150,12 @@ const App = () => (
           },
           atomgit: {
             // atomgit token https://atomgit.com/-/profile/tokens
-            token: ''
+            token: '',
           },
           gitee: {
             // gitee token https://gitee.com/profile/personal_access_tokens
             recursive: true,
-            token: ''
+            token: '',
           },
           codeup: {
             // for proxy
@@ -184,32 +179,32 @@ const App = () => (
       aiNative: {
         enable: true,
         providerEditorInlineChat(): IEditorInlineChat[] {
-            return [
-              {
-                operational: {
-                  id: 'test',
-                  name: 'test',
-                  codeAction: {},
-                  title: 'Test',
+          return [
+            {
+              operational: {
+                id: 'test',
+                name: 'test',
+                codeAction: {},
+                title: 'Test',
+              },
+              handler: {
+                execute(editor, ...args) {
+                  editor.getModel()?.pushEditOperations(
+                    [],
+                    [
+                      {
+                        range: editor.getSelection()!,
+                        text: 'test',
+                      },
+                    ],
+                    () => null,
+                  );
                 },
-                handler: {
-                  execute(editor, ...args) {
-                    editor.getModel()?.pushEditOperations(
-                      [],
-                      [
-                        {
-                          range: editor.getSelection()!,
-                          text: 'test',
-                        },
-                      ],
-                      () => null
-                    )
-                  },
-                }
-              }
-            ]
+              },
+            },
+          ];
         },
-      }
+      },
     }}
   />
 );

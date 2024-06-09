@@ -1,75 +1,62 @@
-import { Injectable, Injector, ConstructorOf, Provider } from '@opensumi/di';
+import { ConstructorOf, Injectable, Injector, Provider } from '@opensumi/di';
 import {
   BrowserModule,
   IAppRenderer,
   IClientAppOpts,
+  IContextKeyService,
+  PreferenceProvider,
   PreferenceProviderProvider,
   PreferenceScope,
-  PreferenceProvider,
-  IContextKeyService,
 } from '@opensumi/ide-core-browser';
 import { ClientApp as BasicClientApp } from '@opensumi/ide-core-browser/lib/bootstrap/app';
 
 import { Disposable } from '@opensumi/ide-core-common';
 
-import { OpenSumiExtFsProvider, KtExtFsProviderContribution } from './extension';
-import { TextmateLanguageGrammarContribution } from './textmate-language-grammar/index.contribution';
-import { ILanguageGrammarRegistrationService } from './textmate-language-grammar/base';
-import { LanguageGrammarRegistrationService } from './textmate-language-grammar/language-grammar.service';
-import { injectDebugPreferences } from './debug';
 import { IServerApp, RootFS, RuntimeConfig } from '../common';
 import { IServerAppOpts, ServerApp } from '../server/core/app';
-import {
-  FileTreeCustomContribution,
-  EditorActionEventContribution,
-  MenuConfigContribution,
-} from './custom';
+import { EditorActionEventContribution, FileTreeCustomContribution, MenuConfigContribution } from './custom';
+import { injectDebugPreferences } from './debug';
 import { EditorEmptyContribution } from './editor-empty/editor-empty.contribution';
-import { WelcomeContribution } from './welcome/welcome.contributon';
+import { KtExtFsProviderContribution, OpenSumiExtFsProvider } from './extension';
 import { FileSchemeContribution } from './file-scheme/index.contribution';
-import { PreferenceSettingContribution } from './preference/preference.setting.contribution';
 import { LayoutRestoreContributation } from './layout/index.contribution';
+import { PreferenceSettingContribution } from './preference/preference.setting.contribution';
+import { ILanguageGrammarRegistrationService } from './textmate-language-grammar/base';
+import { TextmateLanguageGrammarContribution } from './textmate-language-grammar/index.contribution';
+import { LanguageGrammarRegistrationService } from './textmate-language-grammar/language-grammar.service';
+import { WelcomeContribution } from './welcome/welcome.contributon';
 
 import { BreadCrumbServiceImplOverride, IBreadCrumbService } from './override/breadcrumb.service';
-import { SearchContribution } from './search/index.contribution';
-import {
-  MonacoSnippetSuggestProviderOverride,
-  MonacoSnippetSuggestProvider,
-} from './override/snippet.service';
 import { IMonacoOverrideService, MonacoOverrideService } from './override/monacoContextKeyService';
-import {
-  VSCodeContributesServiceOverride,
-  VSCodeContributesServiceToken,
-} from './override/vscodeContributesService';
+import { MonacoSnippetSuggestProvider, MonacoSnippetSuggestProviderOverride } from './override/snippet.service';
+import { VSCodeContributesServiceOverride, VSCodeContributesServiceToken } from './override/vscodeContributesService';
+import { SearchContribution } from './search/index.contribution';
 
-import {
-  IMonacoCommandServiceProxy,
-  monacoCommandServiceProxy,
-} from './override/monacoOverride/commandService';
-import { ICommandServiceToken } from '@opensumi/ide-monaco/lib/browser/contrib/command';
+import { WebConnectionHelper } from '@opensumi/ide-core-browser/lib/application/runtime';
 import { MonacoCommandService } from '@opensumi/ide-editor/lib/browser/monaco-contrib/command/command.service';
+import { IExtensionStorageService } from '@opensumi/ide-extension-storage';
+import { ICommandServiceToken } from '@opensumi/ide-monaco/lib/browser/contrib/command';
+import { CodeBlitzAINativeContribution } from './ai-native';
+import { injectAINativePreferences } from './ai-native/preferences';
+import { ExtensionStorageServiceOverride } from './override/extensionStorageService';
+import { MonacoOverrides } from './override/monacoOverride';
 import {
   IMonacoCodeService,
   MonacoCodeService,
   monacoCodeServiceProxy,
 } from './override/monacoOverride/codeEditorService';
+import { IMonacoCommandServiceProxy, monacoCommandServiceProxy } from './override/monacoOverride/commandService';
 import { MonacoContextKeyServiceOverride } from './override/monacoOverride/contextKeyService';
-import { ExtensionStorageServiceOverride } from './override/extensionStorageService';
-import { IExtensionStorageService } from '@opensumi/ide-extension-storage';
-import { MonacoOverrides } from './override/monacoOverride';
 import { monacoTextModelServiceProxy } from './override/monacoOverride/textModelService';
 import { monacoBulkEditServiceProxy } from './override/monacoOverride/workspaceEditService';
 import { CodeBlitzConnectionHelper } from './override/webConnectionHelper';
-import { WebConnectionHelper } from '@opensumi/ide-core-browser/lib/application/runtime';
-import { CodeBlitzAINativeContribution } from './ai-native';
-import { injectAINativePreferences } from './ai-native/preferences';
 export * from './override/monacoOverride/codeEditorService';
 
 export { ExtensionManagerModule as ExtensionClientManagerModule } from './extension-manager';
 
 export * from './extension';
 
-export { TextmateLanguageGrammarContribution, LanguageGrammarRegistrationService };
+export { LanguageGrammarRegistrationService, TextmateLanguageGrammarContribution };
 
 export type ModuleConstructor = ConstructorOf<BrowserModule>;
 
@@ -198,7 +185,7 @@ export class ClientApp extends BasicClientApp {
     const workspaceFS = rootFS._getFs(this.config.workspaceDir);
     if (workspaceFS.fs.isReadOnly()) {
       const providerFactory: PreferenceProviderProvider = this.injector.get(
-        PreferenceProviderProvider
+        PreferenceProviderProvider,
       );
       const defaultPreference: PreferenceProvider = providerFactory(PreferenceScope.Default);
       defaultPreference.setPreference('editor.readonlyFiles', [

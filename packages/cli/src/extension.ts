@@ -1,31 +1,26 @@
-import * as path from 'path';
-import * as os from 'os';
-import * as fse from 'fs-extra';
-import { from, of } from 'rxjs';
-import { mergeMap, filter, map } from 'rxjs/operators';
 import { IExtensionMode } from '@codeblitzjs/ide-common';
-import { EXTENSION_DIR, EXTENSION_METADATA_DIR, EXTENSION_FIELD, resolveMarketplaceConfig } from './util/constant';
-import { ExtensionInstaller, Extension } from './util/installer';
-import { getExtension } from './extension/scanner';
-import {
-  IExtensionBasicMetadata,
-  IExtensionDesc,
-  IExtensionIdentity,
-  IExtensionServerOptions,
-} from './extension/type';
-import { log, error } from './util/log';
-import checkFramework from './util/check-framework';
-import { createServer, getHttpUri } from './util/serve-file';
-import { formatExtension } from './util';
+import * as fse from 'fs-extra';
+import * as os from 'os';
+import * as path from 'path';
+import { from, of } from 'rxjs';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { createMetadataType } from './extension/metadata-type';
+import { getExtension } from './extension/scanner';
+import { IExtensionBasicMetadata, IExtensionDesc, IExtensionIdentity, IExtensionServerOptions } from './extension/type';
+import { formatExtension } from './util';
+import checkFramework from './util/check-framework';
+import { EXTENSION_DIR, EXTENSION_FIELD, EXTENSION_METADATA_DIR, resolveMarketplaceConfig } from './util/constant';
+import { Extension, ExtensionInstaller } from './util/installer';
+import { error, log } from './util/log';
 import { resolveCWDPkgJSON } from './util/path';
+import { createServer, getHttpUri } from './util/serve-file';
 
 let extensionInstaller: ExtensionInstaller;
 let shouldWriteConfig = false;
 
 export const install = async (
   extensionId?: string[],
-  options?: { silent: boolean; mode?: 'public' | 'internal' }
+  options?: { silent: boolean; mode?: 'public' | 'internal' },
 ) => {
   checkFramework();
 
@@ -67,7 +62,7 @@ export const install = async (
       ),
       mergeMap(([extPath, mode]) => getExtension(extPath, mode), 5),
       filter((data) => !!data),
-      mergeMap(writeMetadata)
+      mergeMap(writeMetadata),
     )
     .subscribe(
       (ext) => {
@@ -86,7 +81,7 @@ export const install = async (
           modifyPkgJSON(installedExtensions);
         }
         log.success('扩展安装成功');
-      }
+      },
     );
 };
 
@@ -119,7 +114,7 @@ export const installLocalExtensions = async (dirs: string[], options?: IExtensio
     .pipe(
       mergeMap((localExtPath) => getExtension(localExtPath, 'local', httpUri), 5),
       filter((data) => !!data),
-      mergeMap(writeMetadata)
+      mergeMap(writeMetadata),
     )
     .subscribe(
       (ext) => {
@@ -132,7 +127,7 @@ export const installLocalExtensions = async (dirs: string[], options?: IExtensio
       () => {
         log.success('本地扩展安装成功');
         createServer(absoluteDirs, httpUri);
-      }
+      },
     );
 };
 
@@ -163,7 +158,7 @@ async function removeExtensionById(ext: IExtensionDesc) {
   const extensionId = `${ext.publisher}.${ext.name}`;
   return Promise.all([
     await fse.remove(
-      path.join(`${EXTENSION_DIR}`, `${extensionId}${ext.version ? `-${ext.version}` : ''}`)
+      path.join(`${EXTENSION_DIR}`, `${extensionId}${ext.version ? `-${ext.version}` : ''}`),
     ),
     await fse.remove(path.join(EXTENSION_METADATA_DIR, `${extensionId}.js`)),
     await fse.remove(path.join(EXTENSION_METADATA_DIR, `${extensionId}.d.ts`)),
@@ -242,7 +237,7 @@ async function writeMetadata(metadata: IExtensionBasicMetadata) {
     path.join(EXTENSION_METADATA_DIR, `${extensionId}.js`),
     `
 module.exports = ${JSON.stringify(metadata, null, 2)}
-    `.trim() + '\n'
+    `.trim() + '\n',
   );
   await createMetadataType(extensionId);
   return extension;
@@ -253,7 +248,7 @@ async function modifyPkgJSON(extensions: IExtensionIdentity[]) {
   const newConfig = [...extConfig];
   extensions.forEach((ext) => {
     const obj = extConfig.find(
-      (item) => item.publisher === ext.publisher && item.name === ext.name
+      (item) => item.publisher === ext.publisher && item.name === ext.name,
     );
     if (obj) {
       obj.version = ext.version;

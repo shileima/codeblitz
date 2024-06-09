@@ -1,4 +1,4 @@
-import { FRAMEWORK_PATH, FRAMEWORK_NAME } from './constant';
+import { FRAMEWORK_NAME, FRAMEWORK_PATH } from './constant';
 import { log } from './log';
 
 export default function checkFramework() {

@@ -1,14 +1,14 @@
-import { ModuleConstructor } from '@opensumi/ide-core-browser';
-import { IAppOpts } from '@codeblitzjs/ide-sumi-core';
-import { getThemeId, getThemeType, IThemeContribution, BuiltinTheme } from '@opensumi/ide-theme';
 import { IExtensionBasicMetadata } from '@codeblitzjs/ide-common';
+import { IAppOpts } from '@codeblitzjs/ide-sumi-core';
+import { ModuleConstructor } from '@opensumi/ide-core-browser';
+import { BuiltinTheme, getThemeId, getThemeType, IThemeContribution } from '@opensumi/ide-theme';
 
 import { IAppConfig } from '../api/types';
 
 export const flatModules = (modules: Record<string, ModuleConstructor | ModuleConstructor[]>) => {
   return Object.keys(modules).reduce<ModuleConstructor[]>(
     (arr, key) => arr.concat(modules[key]),
-    []
+    [],
   );
 };
 
@@ -49,13 +49,13 @@ export const mergeConfig = (target: IAppOpts, source: IAppConfig) => {
 
 export const getThemeTypeByPreferenceThemeId = (
   themeId: string,
-  extensionMetadata: IExtensionBasicMetadata[] | undefined
+  extensionMetadata: IExtensionBasicMetadata[] | undefined,
 ) => {
   let uiTheme: BuiltinTheme | undefined;
   if (themeId && extensionMetadata) {
     for (const ext of extensionMetadata) {
       const theme: IThemeContribution | undefined = ext.packageJSON.contributes?.themes?.find(
-        (contrib: IThemeContribution) => contrib && getThemeId(contrib) === themeId
+        (contrib: IThemeContribution) => contrib && getThemeId(contrib) === themeId,
       );
 
       if (theme?.uiTheme) {
