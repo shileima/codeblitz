@@ -758,7 +758,7 @@ __metadata:
     style-loader: "npm:^2.0.0"
     ts-loader: "npm:^8.0.11"
     tsconfig-paths-webpack-plugin: "npm:^3.3.0"
-    umi-webpack-bundle-analyzer: "npm:^3.6.0"
+    umi-webpack-bundle-analyzer: "npm:^4.4.2"
     url-loader: "npm:^4.1.1"
     webpack: "npm:^5.73.0"
     webpack-cli: "npm:^4.2.0"
@@ -16753,9 +16753,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"umi-webpack-bundle-analyzer@npm:^3.6.0":
-  version: 3.6.2
-  resolution: "umi-webpack-bundle-analyzer@npm:3.6.2"
+"umi-webpack-bundle-analyzer@npm:^4.4.2":
+  version: 4.4.2
+  resolution: "umi-webpack-bundle-analyzer@npm:4.4.2"
   dependencies:
     acorn: "npm:^8.0.4"
     acorn-walk: "npm:^8.0.0"
@@ -16769,7 +16769,7 @@ __metadata:
     ws: "npm:^7.3.1"
   bin:
     umi-webpack-bundle-analyzer: lib/bin/analyzer.js
-  checksum: 10/77fabefa7ee1aa32e1cad4c328eb547119bb86eed2d1a2b5ceaf3731c4564ea426dd81a4c86bfb860cf421c201c864fbb8f3fd653ca27b26525619324b4ecbe5
+  checksum: 10/34eaca6c169eec1d05ccc2c00607ea7be7c48e064f0f0f54ae240d4fc58bdbbdf1292fae4aad8b998690f1ddad781318dc43a217dbf33c4a1978f8777d42a715
   languageName: node
   linkType: hard
 
