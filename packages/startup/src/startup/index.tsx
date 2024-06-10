@@ -18,10 +18,10 @@ import anycodePython from '@codeblitzjs/ide-core/extensions/codeblitz.anycode-py
 import anycodeRust from '@codeblitzjs/ide-core/extensions/codeblitz.anycode-rust';
 import anycodeTypescript from '@codeblitzjs/ide-core/extensions/codeblitz.anycode-typescript';
 import codeRunner from '@codeblitzjs/ide-core/extensions/codeblitz.code-runner-for-web';
-import codeswing from '@codeblitzjs/ide-core/extensions/codeblitz.codeswing';
+// import codeswing from '@codeblitzjs/ide-core/extensions/codeblitz.codeswing';
 import css from '@codeblitzjs/ide-core/extensions/codeblitz.css-language-features-worker';
 import emmet from '@codeblitzjs/ide-core/extensions/codeblitz.emmet';
-import graph from '@codeblitzjs/ide-core/extensions/codeblitz.git-graph';
+// import graph from '@codeblitzjs/ide-core/extensions/codeblitz.git-graph';
 import gitlens from '@codeblitzjs/ide-core/extensions/codeblitz.gitlens';
 import html from '@codeblitzjs/ide-core/extensions/codeblitz.html-language-features-worker';
 import imagePreview from '@codeblitzjs/ide-core/extensions/codeblitz.image-preview';
@@ -31,6 +31,9 @@ import mergeConflict from '@codeblitzjs/ide-core/extensions/codeblitz.merge-conf
 import referencesView from '@codeblitzjs/ide-core/extensions/codeblitz.references-view';
 import typescript from '@codeblitzjs/ide-core/extensions/codeblitz.typescript-language-features-worker';
 import webSCM from '@codeblitzjs/ide-core/extensions/codeblitz.web-scm';
+
+// 本项目本地插件
+import toolbarSample from '../../extensions/toolbar-sample/codeblitz.toolbar-sample';
 
 import { LocalExtensionModule } from '../common/local-extension.module';
 import * as Plugin from '../editor/plugin';
@@ -102,7 +105,7 @@ const extensionMetadata = [
   imagePreview,
   webSCM,
   referencesView,
-  codeswing,
+  // codeswing,
   emmet,
   anycodeCSharp,
   anycodeCpp,
@@ -115,10 +118,11 @@ const extensionMetadata = [
   anycode,
   codeRunner,
   mergeConflict,
+  toolbarSample,
 ];
 
 if (platform !== CodePlatform.atomgit) {
-  extensionMetadata.push(graph);
+  // extensionMetadata.push(graph);
 }
 
 const App = () => (
